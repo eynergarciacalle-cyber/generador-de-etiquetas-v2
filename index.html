@@ -555,7 +555,14 @@ async function cargarMaestroDesdeGoogle() {
             if (summaryData.length === 1 && !summaryData[0].codigo) {
                 summaryData = []; 
             }
-            summaryData.push({ ...item, cantidad: 1, undm: '', oc: '', usuario: '' });
+            summaryData.push({ 
+             codigo: item.codigo || '', 
+             descripcion: item.descripcion || '', 
+             undm: item.undm || '', 
+             oc: '', 
+             usuario: '', 
+             cantidad: 1 
+         });
             displaySummaryData();
             showMessage(`'${item.codigo}' añadido al resumen.`, 'success');
             
