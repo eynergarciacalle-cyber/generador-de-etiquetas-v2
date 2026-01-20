@@ -340,9 +340,10 @@ async function cargarMaestroDesdeGoogle() {
             // Usamos una expresión regular para separar por comas respetando las comillas
             const columnas = fila.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
             return {
-                codigo: columnas[0]?.replace(/"/g, '').trim() || '',
-                descripcion: columnas[1]?.replace(/"/g, '').trim() || ''
-            };
+  codigo: columnas?.replace(/"/g, '').trim(),
+  descripcion: columnas[1]?.replace(/"/g, '').trim(),
+  undm: columnas?.replace(/"/g, '').trim()
+};
         }).filter(p => p.codigo !== ''); 
 
         if (nuevosDatos.length > 0) {
