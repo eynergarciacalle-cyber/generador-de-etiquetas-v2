@@ -337,13 +337,13 @@ async function cargarMaestroDesdeGoogle() {
         
         // Procesar filas (asumiendo Columna A: Código, Columna B: Descripción)
         const nuevosDatos = filas.slice(1).map(fila => {
-            // Usamos una expresión regular para separar por comas respetando las comillas
-            const columnas = fila.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
-            return {
-                codigo: columnas[0]?.replace(/"/g, '').trim() || '',
-                descripcion: columnas[1]?.replace(/"/g, '').trim() || ''
-            };
-        }).filter(p => p.codigo !== ''); 
+    const columnas = fila.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+    return {
+        codigo: columnas[0]?.replace(/"/g, '').trim() || '',
+        descripcion: columnas[1]?.replace(/"/g, '').trim() || '',
+        undm: columnas[2]?.replace(/"/g, '').trim() || ''
+    };
+}).filter(p => p.codigo !== '');
 
         if (nuevosDatos.length > 0) {
             masterProductData = nuevosDatos;
@@ -552,23 +552,23 @@ async function cargarMaestroDesdeGoogle() {
 
         // --- LÓGICA DE BÚSQUEDA AVANZADA (PUNTO 2.A) ---
         const addProductToSummary = (item) => {
-            if (summaryData.length === 1 && !summaryData[0].codigo) {
-                summaryData = []; 
-            }
-            summaryData.push({ 
-    codigo: item.codigo, 
-    descripcion: item.descripcion,
-    undm: item.undm || '',
-    oc: '', 
-    usuario: '', 
-    cantidad: 1 
-});
-            displaySummaryData();
-            showMessage(`'${item.codigo}' añadido al resumen.`, 'success');
-            
-            // Arreglo de Flujo de Trabajo: Abrir la sección 3 automáticamente
-            openCollapsible('summary-content', 'toggle-icon-summary');
-        };
+    if (summaryData.length === 1 && !summaryData[0].codigo) {
+        summaryData = []; 
+    }
+    summaryData.push({ 
+        codigo: item.codigo || '', 
+        descripcion: item.descripcion || '',
+        undm: item.undm || '',
+        oc: '', 
+        usuario: '', 
+        cantidad: 1 
+    });
+    displaySummaryData();
+    showMessage(`'${item.codigo}' añadido al resumen.`, 'success');
+    
+    // Arreglo de Flujo de Trabajo: Abrir la sección 3 automáticamente
+    openCollapsible('summary-content', 'toggle-icon-summary');
+};
 
         const updateSearchResults = debounce(() => {
             const query = searchInput.value.toLowerCase().trim();
